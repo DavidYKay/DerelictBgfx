@@ -51,8 +51,6 @@ extern(C) @nogc nothrow
     alias da_bgfx_vertex_unpack = void function(float[4] _output, bgfx_attrib_t _attr, const bgfx_vertex_decl_t* _decl, const void* _data, uint32_t _index = 0);
     alias da_bgfx_vertex_convert = void function(const bgfx_vertex_decl_t* _destDecl, void* _destData, const bgfx_vertex_decl_t* _srcDecl, const void* _srcData, uint32_t _num = 1);
     alias da_bgfx_weld_vertices = uint16_t function(uint16_t* _output, const bgfx_vertex_decl_t* _decl, const void* _data, uint16_t _num, float _epsilon = 0.001f);
-    alias da_bgfx_image_swizzle_bgra8 = void function(uint32_t _width, uint32_t _height, uint32_t _pitch, const void* _src, void* _dst);
-    alias da_bgfx_image_rgba8_downsample_2x2 = void function(uint32_t _width, uint32_t _height, uint32_t _pitch, const void* _src, void* _dst);
     alias da_bgfx_get_supported_renderers = uint8_t function(bgfx_renderer_type_t[BGFX_RENDERER_TYPE_COUNT] _enum);
     alias da_bgfx_get_renderer_name = const char* function(bgfx_renderer_type_t _type);
 
@@ -111,7 +109,6 @@ extern(C) @nogc nothrow
     alias da_bgfx_update_texture_3d = void function(bgfx_texture_handle_t _handle, uint8_t _mip, uint16_t _x, uint16_t _y, uint16_t _z, uint16_t _width, uint16_t _height, uint16_t _depth, const bgfx_memory_t* _mem);
     alias da_bgfx_update_texture_cube = void function(bgfx_texture_handle_t _handle, uint8_t _side, uint8_t _mip, uint16_t _x, uint16_t _y, uint16_t _width, uint16_t _height, const bgfx_memory_t* _mem, uint16_t _pitch = uint16_t.max);
     alias da_bgfx_read_texture = void function(bgfx_texture_handle_t _handle, void* _data);
-    alias da_bgfx_read_frame_buffer = void function(bgfx_frame_buffer_handle_t _handle, uint8_t _attachment, void* _data);
     alias da_bgfx_destroy_texture = void function(bgfx_texture_handle_t _handle);
     alias da_bgfx_create_frame_buffer = bgfx_frame_buffer_handle_t function(uint16_t _width, uint16_t _height, bgfx_texture_format_t _format, uint32_t _textureFlags = (BGFX_TEXTURE_U_CLAMP | BGFX_TEXTURE_V_CLAMP) );
     alias da_bgfx_create_frame_buffer_scaled = bgfx_frame_buffer_handle_t function(bgfx_backbuffer_ratio_t _ratio, bgfx_texture_format_t _format, uint32_t _textureFlags);
@@ -135,7 +132,6 @@ extern(C) @nogc nothrow
     alias da_bgfx_set_view_frame_buffer = void function(uint8_t _id, bgfx_frame_buffer_handle_t _handle);
     alias da_bgfx_set_view_transform = void function(uint8_t _id, const void* _view, const void* _proj);
     alias da_bgfx_set_view_transform_stereo = void function(uint8_t _id, const(void*) _view, const(void*) _projL, uint8_t _flags, const(void*) _projR);
-    alias da_bgfx_set_view_remap = void function(uint8_t _id, uint8_t _num, const(void*) _remap);
     alias da_bgfx_reset_view = void function(uint8_t _id);
     alias da_bgfx_set_marker = void function(const char* _marker);
     alias da_bgfx_set_state = void function(uint64_t _state, uint32_t _rgba = 0);
@@ -157,13 +153,11 @@ extern(C) @nogc nothrow
     alias da_bgfx_set_instance_data_from_vertex_buffer = void function(bgfx_vertex_buffer_handle_t _handle, uint32_t _startVertex, uint32_t _num);
     alias da_bgfx_set_instance_data_from_dynamic_vertex_buffer = void function(bgfx_dynamic_vertex_buffer_handle_t _handle, uint32_t _startVertex, uint32_t _num);
     alias da_bgfx_set_texture = void function(uint8_t _stage, bgfx_uniform_handle_t _sampler, bgfx_texture_handle_t _handle, uint32_t _flags = uint32_t.max);
-    alias da_bgfx_set_texture_from_frame_buffer = void function(uint8_t _stage, bgfx_uniform_handle_t _sampler, bgfx_frame_buffer_handle_t _handle, uint8_t _attachment = 0, uint32_t _flags = uint32_t.max);
     alias da_bgfx_touch = uint32_t function(uint8_t _id);
     alias da_bgfx_submit = uint32_t function(uint8_t _id, bgfx_program_handle_t _handle, int32_t _depth = 0, bool _preserveState = false);
     alias da_bgfx_submit_occlusion_query = uint32_t function(uint8_t _id, bgfx_program_handle_t _program, bgfx_occlusion_query_handle_t _occlusionQuery, int32_t _depth = 0, bool _preserveState = false);
     alias da_bgfx_submit_indirect = uint32_t function(uint8_t _id, bgfx_program_handle_t _handle, bgfx_indirect_buffer_handle_t _indirectHandle, uint16_t _start = 0, uint16_t _num = 1, int32_t _depth = 0, bool _preserveState = false);
     alias da_bgfx_set_image = void function(uint8_t _stage, bgfx_uniform_handle_t _sampler, bgfx_texture_handle_t _handle, uint8_t _mip, bgfx_access_t _access, bgfx_texture_format_t _format);
-    alias da_bgfx_set_image_from_frame_buffer = void function(uint8_t _stage, bgfx_uniform_handle_t _sampler, bgfx_frame_buffer_handle_t _handle, uint8_t _attachment, bgfx_access_t _access, bgfx_texture_format_t _format);
     alias da_bgfx_set_compute_index_buffer = void function(uint8_t _stage, bgfx_index_buffer_handle_t _handle, bgfx_access_t _access);
     alias da_bgfx_set_compute_vertex_buffer = void function(uint8_t _stage, bgfx_vertex_buffer_handle_t _handle, bgfx_access_t _access);
     alias da_bgfx_set_compute_dynamic_index_buffer = void function(uint8_t _stage, bgfx_dynamic_index_buffer_handle_t _handle, bgfx_access_t _access);
@@ -173,8 +167,6 @@ extern(C) @nogc nothrow
     alias da_bgfx_dispatch_indirect = uint32_t function(uint8_t _id, bgfx_program_handle_t _handle, bgfx_indirect_buffer_handle_t _indirectHandle, uint16_t _start, uint16_t _num, uint8_t _flags);
     alias da_bgfx_discard = void function();
     alias da_bgfx_blit = void function(uint8_t _id, bgfx_texture_handle_t _dst, uint8_t _dstMip, uint16_t _dstX, uint16_t _dstY, uint16_t _dstZ, bgfx_texture_handle_t _src, uint8_t _srcMip, uint16_t _srcX, uint16_t _srcY, uint16_t _srcZ, uint16_t _width, uint16_t _height, uint16_t _depth);
-    alias da_bgfx_blit_frame_buffer = void function(uint8_t _id, bgfx_texture_handle_t _dst, uint8_t _dstMip, uint16_t _dstX, uint16_t _dstY, uint16_t _dstZ, bgfx_frame_buffer_handle_t _src, uint8_t _attachment, uint8_t _srcMip, uint16_t _srcX, uint16_t _srcY, uint16_t _srcZ, uint16_t _width, uint16_t _height, uint16_t _depth);
-    alias da_bgfx_save_screen_shot = void function(const char* _filePath);
 
     // bgfxplatform.c99.h
 
@@ -195,8 +187,6 @@ __gshared
     da_bgfx_vertex_unpack bgfx_vertex_unpack;
     da_bgfx_vertex_convert bgfx_vertex_convert;
     da_bgfx_weld_vertices bgfx_weld_vertices;
-    da_bgfx_image_swizzle_bgra8 bgfx_image_swizzle_bgra8;
-    da_bgfx_image_rgba8_downsample_2x2 bgfx_image_rgba8_downsample_2x2;
     da_bgfx_get_supported_renderers bgfx_get_supported_renderers;
     da_bgfx_get_renderer_name bgfx_get_renderer_name;
     da_bgfx_init bgfx_init;
@@ -205,7 +195,6 @@ __gshared
     da_bgfx_frame bgfx_frame;
     da_bgfx_get_renderer_type bgfx_get_renderer_type;
     da_bgfx_get_caps bgfx_get_caps;
-    da_bgfx_get_hmd bgfx_get_hmd;
     da_bgfx_get_stats bgfx_get_stats;
     da_bgfx_alloc bgfx_alloc;
     da_bgfx_copy bgfx_copy;
@@ -227,14 +216,6 @@ __gshared
     da_bgfx_create_dynamic_vertex_buffer_mem bgfx_create_dynamic_vertex_buffer_mem;
     da_bgfx_update_dynamic_vertex_buffer bgfx_update_dynamic_vertex_buffer;
     da_bgfx_destroy_dynamic_vertex_buffer bgfx_destroy_dynamic_vertex_buffer;
-    da_bgfx_check_avail_transient_index_buffer bgfx_check_avail_transient_index_buffer;
-    da_bgfx_check_avail_transient_vertex_buffer bgfx_check_avail_transient_vertex_buffer;
-    da_bgfx_check_avail_instance_data_buffer bgfx_check_avail_instance_data_buffer;
-    da_bgfx_check_avail_transient_buffers bgfx_check_avail_transient_buffers;
-    da_bgfx_alloc_transient_index_buffer bgfx_alloc_transient_index_buffer;
-    da_bgfx_alloc_transient_vertex_buffer bgfx_alloc_transient_vertex_buffer;
-    da_bgfx_alloc_transient_buffers bgfx_alloc_transient_buffers;
-    da_bgfx_alloc_instance_data_buffer bgfx_alloc_instance_data_buffer;
     da_bgfx_create_indirect_buffer bgfx_create_indirect_buffer;
     da_bgfx_destroy_indirect_buffer bgfx_destroy_indirect_buffer;
     da_bgfx_create_shader bgfx_create_shader;
@@ -253,7 +234,6 @@ __gshared
     da_bgfx_update_texture_3d bgfx_update_texture_3d;
     da_bgfx_update_texture_cube bgfx_update_texture_cube;
     da_bgfx_read_texture bgfx_read_texture;
-    da_bgfx_read_frame_buffer bgfx_read_frame_buffer;
     da_bgfx_destroy_texture bgfx_destroy_texture;
     da_bgfx_create_frame_buffer bgfx_create_frame_buffer;
     da_bgfx_create_frame_buffer_scaled bgfx_create_frame_buffer_scaled;
@@ -272,11 +252,9 @@ __gshared
     da_bgfx_set_view_scissor bgfx_set_view_scissor;
     da_bgfx_set_view_clear bgfx_set_view_clear;
     da_bgfx_set_view_clear_mrt bgfx_set_view_clear_mrt;
-    da_bgfx_set_view_seq bgfx_set_view_seq;
     da_bgfx_set_view_frame_buffer bgfx_set_view_frame_buffer;
     da_bgfx_set_view_transform bgfx_set_view_transform;
     da_bgfx_set_view_transform_stereo bgfx_set_view_transform_stereo;
-    da_bgfx_set_view_remap bgfx_set_view_remap;
     da_bgfx_reset_view bgfx_reset_view;
     da_bgfx_set_marker bgfx_set_marker;
     da_bgfx_set_state bgfx_set_state;
@@ -298,13 +276,11 @@ __gshared
     da_bgfx_set_instance_data_from_vertex_buffer bgfx_set_instance_data_from_vertex_buffer;
     da_bgfx_set_instance_data_from_dynamic_vertex_buffer bgfx_set_instance_data_from_dynamic_vertex_buffer;
     da_bgfx_set_texture bgfx_set_texture;
-    da_bgfx_set_texture_from_frame_buffer bgfx_set_texture_from_frame_buffer;
     da_bgfx_touch bgfx_touch;
     da_bgfx_submit bgfx_submit;
     da_bgfx_submit_occlusion_query bgfx_submit_occlusion_query;
     da_bgfx_submit_indirect bgfx_submit_indirect;
     da_bgfx_set_image bgfx_set_image;
-    da_bgfx_set_image_from_frame_buffer bgfx_set_image_from_frame_buffer;
     da_bgfx_set_compute_index_buffer bgfx_set_compute_index_buffer;
     da_bgfx_set_compute_vertex_buffer bgfx_set_compute_vertex_buffer;
     da_bgfx_set_compute_dynamic_index_buffer bgfx_set_compute_dynamic_index_buffer;
@@ -314,8 +290,6 @@ __gshared
     da_bgfx_dispatch_indirect bgfx_dispatch_indirect;
     da_bgfx_discard bgfx_discard;
     da_bgfx_blit bgfx_blit;
-    da_bgfx_blit_frame_buffer bgfx_blit_frame_buffer;
-    da_bgfx_save_screen_shot bgfx_save_screen_shot;
 
     da_bgfx_render_frame bgfx_render_frame;
     da_bgfx_set_platform_data bgfx_set_platform_data;
