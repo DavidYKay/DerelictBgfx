@@ -987,3 +987,81 @@ struct bgfx_internal_data_t
 
 }
 
+
+struct bgfx_resolution_t
+{
+    bgfx_texture_format_t format;
+    uint32_t width;
+    uint32_t height;
+    uint32_t reset;
+    uint8_t  numBackBuffers;
+    uint8_t  maxFrameLatency;
+
+};
+
+struct bgfx_init_limits_t
+{
+    uint16_t maxEncoders;
+    uint32_t transientVbSize;
+    uint32_t transientIbSize;
+
+}
+
+struct bgfx_callback_vtbl_t
+{
+
+    //void fatal(bgfx_fatal_t _code, const(char)* _str);
+    //void traceVargs(const(char)* _filePath, uint16_t _line, const(char*) _format, va_list _argList);
+    //uint32_t cacheReadSize(uint64_t _id);
+    //bool cacheRead(uint64_t _id, void* _data, uint32_t _size);
+    //void cacheWrite(uint64_t _id, const(void)* _data, uint32_t _size);
+    //void screenShot(const(char)* _filePath, uint32_t _width, uint32_t _height, uint32_t _pitch, const(void)* _data, uint32_t _size, bool _yflip);
+    //void captureBegin(uint32_t _width, uint32_t _height, uint32_t _pitch, bgfx_texture_format_t _format, bool _yflip);
+    //void captureEnd();
+    //void captureFrame(const(void)* _data, uint32_t _size);
+
+    void fatal(bgfx_callback_interface_t* _this, const char* _filePath, uint16_t _line, bgfx_fatal_t _code, const char* _str);
+    void trace_vargs(bgfx_callback_interface_t* _this, const char* _filePath, uint16_t _line, const char* _format, va_list _argList);
+    void profiler_begin(bgfx_callback_interface_t* _this, const char* _name, uint32_t _abgr, const char* _filePath, uint16_t _line);
+    void profiler_begin_literal(bgfx_callback_interface_t* _this, const char* _name, uint32_t _abgr, const char* _filePath, uint16_t _line);
+    void profiler_end(bgfx_callback_interface_t* _this);
+    uint32_t cache_read_size(bgfx_callback_interface_t* _this, uint64_t _id);
+    bool cache_read(bgfx_callback_interface_t* _this, uint64_t _id, void* _data, uint32_t _size);
+    void cache_write(bgfx_callback_interface_t* _this, uint64_t _id, const void* _data, uint32_t _size);
+    void screen_shot(bgfx_callback_interface_t* _this, const char* _filePath, uint32_t _width, uint32_t _height, uint32_t _pitch, const void* _data, uint32_t _size, bool _yflip);
+    void capture_begin(bgfx_callback_interface_t* _this, uint32_t _width, uint32_t _height, uint32_t _pitch, bgfx_texture_format_t _format, bool _yflip);
+    void capture_end(bgfx_callback_interface_t* _this);
+    void capture_frame(bgfx_callback_interface_t* _this, const void* _data, uint32_t _size);
+
+}
+
+struct bgfx_callback_interface_t
+{
+    bgfx_callback_vtbl_t* vtbl;
+}
+
+struct bgfx_allocator_vtbl_t
+{
+    void realloc(bgfx_allocator_interface_t* _this, void* _ptr, size_t _size, size_t _align, const char* _file, uint32_t _line);
+} 
+
+struct bgfx_allocator_interface_t
+{
+    bgfx_allocator_vtbl_t* vtbl;
+} 
+
+struct bgfx_init_t {
+    bgfx_renderer_type_t type;
+    uint16_t vendorId;
+    uint16_t deviceId;
+    //bool debug;
+    bool profile;
+
+    bgfx_platform_data_t platformData;
+    bgfx_resolution_t    resolution;
+    bgfx_init_limits_t   limits;
+
+    bgfx_callback_interface_t*  callback;
+    bgfx_allocator_interface_t* allocator;
+
+} 

@@ -74,6 +74,7 @@ class DerelictBgfxLoader : SharedLibLoader
             bindFunc(cast(void**)&bgfx_weld_vertices, "bgfx_weld_vertices");
             bindFunc(cast(void**)&bgfx_get_supported_renderers, "bgfx_get_supported_renderers");
             bindFunc(cast(void**)&bgfx_get_renderer_name, "bgfx_get_renderer_name");
+            bindFunc(cast(void**)&bgfx_init_ctor, "bgfx_init_ctor");
             bindFunc(cast(void**)&bgfx_init, "bgfx_init");
             bindFunc(cast(void**)&bgfx_shutdown, "bgfx_shutdown");
             bindFunc(cast(void**)&bgfx_reset, "bgfx_reset");

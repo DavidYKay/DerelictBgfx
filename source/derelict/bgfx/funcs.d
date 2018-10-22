@@ -55,9 +55,12 @@ extern(C) @nogc nothrow
     alias da_bgfx_get_renderer_name = const char* function(bgfx_renderer_type_t _type);
 
     // TODO once DMD 2.066 is release, pass extern(C++) interfaces here
-    alias da_bgfx_init = bool function(bgfx_renderer_type_t _type = BGFX_RENDERER_TYPE_COUNT, uint16_t _vendorId = BGFX_PCI_ID_NONE, uint16_t _deviceId = 0, CallbackI _callback = null, AllocatorI _allocator = null);
+    //alias da_bgfx_init = bool function(bgfx_renderer_type_t _type = BGFX_RENDERER_TYPE_COUNT, uint16_t _vendorId = BGFX_PCI_ID_NONE, uint16_t _deviceId = 0, CallbackI _callback = null, AllocatorI _allocator = null);
+    alias da_bgfx_init_ctor = void function(bgfx_init_t* _init);
+    alias da_bgfx_init = bool function(bgfx_init_t* init);
+
     alias da_bgfx_shutdown = void function();
-    alias da_bgfx_reset = void function(uint32_t _width, uint32_t _height, uint32_t _flags = BGFX_RESET_NONE);
+    alias da_bgfx_reset = void function(uint32_t _width, uint32_t _height, uint32_t _flags, bgfx_texture_format_t _format);
     alias da_bgfx_frame = uint32_t function();
     alias da_bgfx_get_renderer_type = bgfx_renderer_type_t function();
     alias da_bgfx_get_caps = bgfx_caps_t* function();
@@ -123,7 +126,10 @@ extern(C) @nogc nothrow
     alias da_bgfx_destroy_occlusion_query = void function(bgfx_occlusion_query_handle_t _handle);
     alias da_bgfx_set_palette_color = void function(uint8_t _index, const float[4] _rgba);
     alias da_bgfx_set_view_name = void function(uint8_t _id, const char* _name);
-    alias da_bgfx_set_view_rect = void function(uint8_t _id, uint16_t _x, uint16_t _y, uint16_t _width, uint16_t _height);
+
+    alias da_bgfx_set_view_rect = void function(uint16_t _id,        uint16_t _x, uint16_t _y, uint16_t _width, uint16_t _height);
+          //da_bgfx_set_view_rect(                bgfx_view_id_t _id, uint16_t _x, uint16_t _y, uint16_t _width, uint16_t _height);
+
     alias da_bgfx_set_view_rect_auto = void function(uint8_t _id, uint16_t _x, uint16_t _y, bgfx_backbuffer_ratio_t _ratio);
     alias da_bgfx_set_view_scissor = void function(uint8_t _id, uint16_t _x = 0, uint16_t _y = 0, uint16_t _width = 0, uint16_t _height = 0);
     alias da_bgfx_set_view_clear = void function(uint8_t _id, uint16_t _flags, uint32_t _rgba = 0x000000ff, float _depth =  1.0f, uint8_t _stencil = 0);
@@ -189,6 +195,7 @@ __gshared
     da_bgfx_weld_vertices bgfx_weld_vertices;
     da_bgfx_get_supported_renderers bgfx_get_supported_renderers;
     da_bgfx_get_renderer_name bgfx_get_renderer_name;
+    da_bgfx_init_ctor bgfx_init_ctor;
     da_bgfx_init bgfx_init;
     da_bgfx_shutdown bgfx_shutdown;
     da_bgfx_reset bgfx_reset;
