@@ -61,7 +61,7 @@ extern(C) @nogc nothrow
 
     alias da_bgfx_shutdown = void function();
     alias da_bgfx_reset = void function(uint32_t _width, uint32_t _height, uint32_t _flags, bgfx_texture_format_t _format);
-    alias da_bgfx_frame = uint32_t function();
+    alias da_bgfx_frame = uint32_t function(bool);
     alias da_bgfx_get_renderer_type = bgfx_renderer_type_t function();
     alias da_bgfx_get_caps = bgfx_caps_t* function();
     alias da_bgfx_get_hmd = bgfx_hmd_t* function();
